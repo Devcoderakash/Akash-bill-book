@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 36 33% 97%;
+    --foreground: 25 30% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 25 30% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 25 30% 15%;
+
+    --primary: 24 60% 32%;
+    --primary-foreground: 36 33% 97%;
+    --primary-glow: 30 70% 45%;
+
+    --secondary: 35 25% 92%;
+    --secondary-foreground: 25 30% 15%;
+
+    --muted: 35 20% 94%;
+    --muted-foreground: 25 15% 40%;
+
+    --accent: 30 70% 45%;
+    --accent-foreground: 36 33% 97%;
+
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 60% 38%;
+    --success-foreground: 0 0% 100%;
+
+    --border: 30 20% 85%;
+    --input: 30 20% 88%;
+    --ring: 24 60% 32%;
+
+    --radius: 0.6rem;
+
+    --gradient-warm: linear-gradient(135deg, hsl(24 60% 32%), hsl(30 70% 45%));
+    --gradient-soft: linear-gradient(135deg, hsl(36 33% 97%), hsl(35 25% 92%));
+    --shadow-soft: 0 4px 16px -4px hsl(24 60% 32% / 0.15);
+    --shadow-elegant: 0 12px 40px -12px hsl(24 60% 32% / 0.25);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 25 20% 10%;
+    --foreground: 36 33% 95%;
+    --card: 25 20% 13%;
+    --card-foreground: 36 33% 95%;
+    --popover: 25 20% 13%;
+    --popover-foreground: 36 33% 95%;
+    --primary: 30 70% 55%;
+    --primary-foreground: 25 30% 10%;
+    --primary-glow: 35 80% 60%;
+    --secondary: 25 15% 18%;
+    --secondary-foreground: 36 33% 95%;
+    --muted: 25 15% 18%;
+    --muted-foreground: 35 15% 65%;
+    --accent: 30 70% 55%;
+    --accent-foreground: 25 30% 10%;
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 50% 45%;
+    --success-foreground: 0 0% 100%;
+    --border: 25 15% 22%;
+    --input: 25 15% 22%;
+    --ring: 30 70% 55%;
+    --gradient-warm: linear-gradient(135deg, hsl(30 70% 45%), hsl(35 80% 55%));
+    --gradient-soft: linear-gradient(135deg, hsl(25 20% 13%), hsl(25 15% 18%));
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv11", "ss01";
+  }
+}
+
+@layer utilities {
+  .gradient-warm {
+    background: var(--gradient-warm);
+  }
+  .gradient-soft {
+    background: var(--gradient-soft);
+  }
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  .shadow-elegant {
+    box-shadow: var(--shadow-elegant);
+  }
+}
+
+/* Print styles for invoice */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #print-area, #print-area * {
+    visibility: visible;
+  }
+  #print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 20px;
+  }
+  .no-print {
+    display: none !important;
+  }
+  @page {
+    margin: 12mm;
+  }
+}
