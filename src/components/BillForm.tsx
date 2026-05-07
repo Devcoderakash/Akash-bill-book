@@ -33,9 +33,15 @@ const emptyProduct = (): Product => ({
   qty: 1,
 });
 
+const formatDateForInput = (d?: string) => {
+  const dateObj = d ? new Date(d) : new Date();
+  return new Date(dateObj.getTime() - dateObj.getTimezoneOffset() * 60000).toISOString().split('T')[0];
+};
+
 const BillForm = ({ type, initialBill, onBack, onGenerated }: Props) => {
   const [customer, setCustomer] = useState<Customer>(
     initialBill ? initialBill.customer : {
+      prefix: "Mr.",
       name: "",
       mobile: "",
       address: "",
@@ -48,6 +54,7 @@ const BillForm = ({ type, initialBill, onBack, onGenerated }: Props) => {
   const [invoiceNo, setInvoiceNo] = useState<string>(
     initialBill ? initialBill.invoiceNo : generateInvoiceNo()
   );
+  const [date, setDate] = useState<string>(formatDateForInput(initialBill?.date));
   const [bankDetails, setBankDetails] = useState<{ accountNo: string; ifsc: string }>(
     initialBill?.bankDetails || { accountNo: "7184276999", ifsc: "IDIB000K735" }
   );
@@ -64,6 +71,7 @@ const BillForm = ({ type, initialBill, onBack, onGenerated }: Props) => {
 
   const validate = (): string | null => {
     if (!invoiceNo.trim()) return "Bill number is required";
+    if (!date) return "Date is required";
     if (!customer.name.trim()) return "Customer name is required";
     if (!customer.mobile.trim()) return "Mobile number is required";
     if (!/^\d{10}$/.test(customer.mobile.trim()))
@@ -86,7 +94,7 @@ const BillForm = ({ type, initialBill, onBack, onGenerated }: Props) => {
       id: initialBill ? initialBill.id : crypto.randomUUID(),
       invoiceNo: invoiceNo.trim(),
       type,
-      date: initialBill ? initialBill.date : new Date().toISOString(),
+      date: new Date(date + "T00:00:00").toISOString(),
       customer,
       bankDetails,
       products,
@@ -137,13 +145,35 @@ const BillForm = ({ type, initialBill, onBack, onGenerated }: Props) => {
             />
           </div>
           <div>
-            <Label htmlFor="cname">Customer Name *</Label>
+            <Label htmlFor="billDate">Date *</Label>
             <Input
-              id="cname"
-              value={customer.name}
-              onChange={(e) => setCustomer({ ...customer, name: e.target.value })}
-              placeholder="Customer name"
+              id="billDate"
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
             />
+          </div>
+          <div>
+            <Label htmlFor="cname">Customer Name *</Label>
+            <div className="flex gap-2">
+              <select
+                className="flex h-10 w-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                value={customer.prefix || "Mr."}
+                onChange={(e) => setCustomer({ ...customer, prefix: e.target.value })}
+              >
+                <option value="Mr.">Mr.</option>
+                <option value="Ms.">Ms.</option>
+                <option value="Mrs.">Mrs.</option>
+                <option value="M/s.">M/s.</option>
+              </select>
+              <Input
+                id="cname"
+                className="flex-1"
+                value={customer.name}
+                onChange={(e) => setCustomer({ ...customer, name: e.target.value })}
+                placeholder="Customer name"
+              />
+            </div>
           </div>
           <div>
             <Label htmlFor="cmob">Mobile *</Label>

@@ -5,13 +5,13 @@ interface Props {
 }
 
 function numberToWords(num: number): string {
-  const a = ['','One ','Two ','Three ','Four ','Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
-  const b = ['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+  const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
+  const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
 
   if (num === 0) return 'Zero Only';
   const numStr = Math.floor(num).toString();
   if (numStr.length > 9) return 'Amount too large';
-  
+
   const n = ('000000000' + numStr).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
   if (!n) return '';
   let str = '';
@@ -47,7 +47,7 @@ const Invoice = ({ bill }: Props) => {
           {/* Consignor */}
           <div className="p-2">
             <p className="font-semibold">Consignor:-</p>
-            <p className="font-bold text-base mt-1">M/s. AAKASH FURNITURE</p>
+            <p className="font-bold text-base mt-1">AAKASH FURNITURE</p>
             <p>Owner name- Rakesh Lodhi</p>
             <p>Shop No. 2, Aakash Furniture,</p>
             <p>Kolar Road, BHOPAL (MP)</p>
@@ -71,7 +71,7 @@ const Invoice = ({ bill }: Props) => {
           {/* Consignee */}
           <div className="p-2">
             <p className="font-semibold">Consignee:-</p>
-            <p className="font-bold text-base mt-1">M/s. {bill.customer.name}</p>
+            <p className="font-bold text-base mt-1">{bill.customer.prefix || "Mr."} {bill.customer.name}</p>
             <p className="whitespace-pre-wrap">{bill.customer.address}</p>
             <p>PH NO:- {bill.customer.mobile}</p>
             {isGST && bill.customer.gstNumber && (
@@ -92,8 +92,8 @@ const Invoice = ({ bill }: Props) => {
               <th className="py-1 px-1 font-semibold w-[12%]">Sub Total</th>
               {isGST && (
                 <>
-                  <th className="py-1 px-1 font-semibold w-[10%]">CGST<br/>(9%)</th>
-                  <th className="py-1 px-1 font-semibold w-[10%]">SGST<br/>(9%)</th>
+                  <th className="py-1 px-1 font-semibold w-[10%]">CGST<br />(9%)</th>
+                  <th className="py-1 px-1 font-semibold w-[10%]">SGST<br />(9%)</th>
                 </>
               )}
               <th className="py-1 px-1 font-semibold w-[14%]">Total Value</th>
@@ -125,7 +125,7 @@ const Invoice = ({ bill }: Props) => {
                 </tr>
               );
             })}
-            
+
             {/* Subtotal row */}
             <tr className="divide-x-[2px] divide-black font-bold h-[28px]">
               <td colSpan={isGST ? 8 : 6} className="px-2 py-1"></td>

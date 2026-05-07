@@ -9,6 +9,7 @@ export interface Product {
 }
 
 export interface Customer {
+  prefix?: string;
   name: string;
   mobile: string;
   address: string;
