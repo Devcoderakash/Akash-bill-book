@@ -250,28 +250,36 @@ const BillForm = ({ type, initialBill, onBack, onGenerated }: Props) => {
 
         <div className="space-y-3">
           {/* Header for desktop */}
-          <div className="hidden md:grid grid-cols-12 gap-2 text-xs font-medium text-muted-foreground px-1">
-            <div className="col-span-4">Product Name</div>
+          <div className="hidden md:grid grid-cols-14 gap-2 text-xs font-medium text-muted-foreground px-1" style={{ gridTemplateColumns: 'repeat(14, minmax(0, 1fr))' }}>
+            <div className="col-span-3">Product Name</div>
+            <div className="col-span-2">Size</div>
             <div className="col-span-2">HSN</div>
             <div className="col-span-2 text-right">Rate (₹)</div>
             <div className="col-span-1 text-right">Qty</div>
             <div className="col-span-2 text-right">Total</div>
-            <div className="col-span-1"></div>
+            <div className="col-span-2"></div>
           </div>
 
           {products.map((p, idx) => (
             <div
               key={p.id}
-              className="grid grid-cols-12 gap-2 items-center bg-muted/40 p-3 rounded-md"
+              className="grid gap-2 items-center bg-muted/40 p-3 rounded-md"
+              style={{ gridTemplateColumns: 'repeat(14, minmax(0, 1fr))' }}
             >
               <Input
-                className="col-span-12 md:col-span-4 bg-background"
+                className="col-span-14 md:col-span-3 bg-background"
                 placeholder={`Product ${idx + 1} name`}
                 value={p.name}
                 onChange={(e) => updateProduct(p.id, { name: e.target.value })}
               />
               <Input
-                className="col-span-12 md:col-span-2 bg-background"
+                className="col-span-14 md:col-span-2 bg-background"
+                placeholder="Size (e.g. 6x5 ft)"
+                value={p.size || ""}
+                onChange={(e) => updateProduct(p.id, { size: e.target.value })}
+              />
+              <Input
+                className="col-span-14 md:col-span-2 bg-background"
                 placeholder="HSN"
                 value={p.hsn || ""}
                 onChange={(e) => updateProduct(p.id, { hsn: e.target.value })}
@@ -295,7 +303,7 @@ const BillForm = ({ type, initialBill, onBack, onGenerated }: Props) => {
               <div className="col-span-3 md:col-span-2 text-right font-medium tabular-nums flex items-center justify-end">
                 {formatINR(productTotal(p))}
               </div>
-              <div className="col-span-2 md:col-span-1 flex justify-end">
+              <div className="col-span-2 md:col-span-2 flex justify-end">
                 <Button
                   size="icon"
                   variant="ghost"

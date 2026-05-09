@@ -3,6 +3,7 @@ export type BillType = "GST" | "NORMAL";
 export interface Product {
   id: string;
   name: string;
+  size?: string;
   hsn?: string;
   rate: number;
   qty: number;

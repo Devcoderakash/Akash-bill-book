@@ -36,7 +36,7 @@ const Invoice = ({ bill }: Props) => {
   const MIN_ROWS = 8;
   const paddedProducts = [...bill.products];
   while (paddedProducts.length < MIN_ROWS) {
-    paddedProducts.push({ id: `empty-${paddedProducts.length}`, name: "", rate: 0, qty: 0 });
+    paddedProducts.push({ id: `empty-${paddedProducts.length}`, name: "", size: "", rate: 0, qty: 0 });
   }
 
   return (
@@ -87,16 +87,17 @@ const Invoice = ({ bill }: Props) => {
               <th className="py-1 px-1 font-semibold w-[5%]">S.No</th>
               <th className="py-1 px-1 font-semibold w-[10%]">HSN</th>
               <th className="py-1 px-1 font-semibold">Product</th>
-              <th className="py-1 px-1 font-semibold w-[12%]">Rate</th>
-              <th className="py-1 px-1 font-semibold w-[8%]">QTY</th>
-              <th className="py-1 px-1 font-semibold w-[12%]">Sub Total</th>
+              <th className="py-1 px-1 font-semibold w-[10%]">Size</th>
+              <th className="py-1 px-1 font-semibold w-[10%]">Rate</th>
+              <th className="py-1 px-1 font-semibold w-[6%]">QTY</th>
+              <th className="py-1 px-1 font-semibold w-[10%]">Sub Total</th>
               {isGST && (
                 <>
-                  <th className="py-1 px-1 font-semibold w-[10%]">CGST<br />(9%)</th>
-                  <th className="py-1 px-1 font-semibold w-[10%]">SGST<br />(9%)</th>
+                  <th className="py-1 px-1 font-semibold w-[9%]">CGST<br />(9%)</th>
+                  <th className="py-1 px-1 font-semibold w-[9%]">SGST<br />(9%)</th>
                 </>
               )}
-              <th className="py-1 px-1 font-semibold w-[14%]">Total Value</th>
+              <th className="py-1 px-1 font-semibold w-[12%]">Total Value</th>
             </tr>
           </thead>
           <tbody className="divide-y-[1px] divide-black">
@@ -112,6 +113,7 @@ const Invoice = ({ bill }: Props) => {
                   <td className="px-1">{isEmpty ? "" : i + 1}</td>
                   <td className="px-1">{p.hsn || ""}</td>
                   <td className="px-1 text-left">{p.name}</td>
+                  <td className="px-1">{p.size || ""}</td>
                   <td className="px-1">{isEmpty ? "" : p.rate.toFixed(2)}</td>
                   <td className="px-1">{isEmpty ? "" : p.qty}</td>
                   <td className="px-1">{isEmpty ? "" : pTotal.toFixed(2)}</td>
@@ -128,18 +130,18 @@ const Invoice = ({ bill }: Props) => {
 
             {/* Subtotal row */}
             <tr className="divide-x-[2px] divide-black font-bold h-[28px]">
-              <td colSpan={isGST ? 8 : 6} className="px-2 py-1"></td>
+              <td colSpan={isGST ? 9 : 7} className="px-2 py-1"></td>
               <td className="px-1">{bill.total.toFixed(2)}</td>
             </tr>
             {/* Rounding Off */}
             <tr className="divide-x-[2px] divide-black h-[28px]">
-              <td colSpan={isGST ? 6 : 4} className="text-left px-2 py-1">Amount Chargeable (in words)</td>
+              <td colSpan={isGST ? 7 : 5} className="text-left px-2 py-1">Amount Chargeable (in words)</td>
               <td colSpan={2} className="text-left px-2 py-1">Rounding Off</td>
               <td className="px-1">{roundingOff}</td>
             </tr>
             {/* Invoice Amount */}
             <tr className="divide-x-[2px] divide-black font-bold h-[28px]">
-              <td colSpan={isGST ? 6 : 4} className="text-left px-2 py-1">{numberToWords(roundedTotal)}</td>
+              <td colSpan={isGST ? 7 : 5} className="text-left px-2 py-1">{numberToWords(roundedTotal)}</td>
               <td colSpan={2} className="text-left px-2 py-1">Invoice amount</td>
               <td className="px-1">{roundedTotal}</td>
             </tr>
