@@ -77,8 +77,6 @@ const BillForm = ({ type, initialBill, onBack, onGenerated }: Props) => {
     if (!/^\d{10}$/.test(customer.mobile.trim()))
       return "Enter a valid 10-digit mobile number";
     if (!customer.address.trim()) return "Address is required";
-    if (type === "GST" && !customer.gstNumber?.trim())
-      return "GST number is required for GST bill";
     const valid = products.every((p) => p.name.trim() && p.rate > 0 && p.qty > 0);
     if (!valid) return "All products need name, rate and quantity";
     return null;
@@ -199,7 +197,7 @@ const BillForm = ({ type, initialBill, onBack, onGenerated }: Props) => {
           </div>
           {type === "GST" && (
             <div>
-              <Label htmlFor="cgst">GST Number *</Label>
+              <Label htmlFor="cgst">GST Number (Optional)</Label>
               <Input
                 id="cgst"
                 value={customer.gstNumber}
